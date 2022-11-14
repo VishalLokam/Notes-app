@@ -1,9 +1,17 @@
 import React from "react";
+import Header from "./components/Header"
+import Note from "./components/Note"
 
 function App() {
-    return (
+    const [notesArray, setNotesArray] = React.useState(["first note", "Second note"])
+
+    const noteElements = notesArray.map(note => (
+        <Note noteText={note}/>
+    ))
+        return (
         <div className="App">
-            <h1>App Test</h1>
+            <Header />
+            {noteElements}
         </div>
     );
 }
