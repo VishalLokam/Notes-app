@@ -1,59 +1,40 @@
 import React from "react";
 import Header from "./components/Header"
 import Note from "./components/Note"
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-import uniqid from 'uniqid';
+import AddNote from "./components/AddNote"
+
 
 function App() {
     const [notesArray, setNotesArray] = React.useState([])
-    const [newNote, setNewNote] = React.useState({
-        id:"",
-        noteValue:""
-    })
+    const [taskPending, setTaskPending] = React.useState(notesArray.length)
+    const [taskDone, setTaskDone] = React.useState(0)
 
-
-    function handleChange(event){
-        const {value} = event.target
-        setNewNote({
-            id:uniqid(),
-            noteValue:value
+    function handleChecked(id){
+        setNotesArray(prevNotes => {
+            const newArray = prevNotes.filter(note => note.id !== id)
+            return newArray
         })
+
+        setTaskDone(prevNotes=>(prevNotes+1))
     }
 
-    function handleAddNote(event){
-        event.preventDefault()
-        setNotesArray(prevNotes=>(
-            [...prevNotes, newNote]
-        ))
 
-        console.log(notesArray)
-    }
+    React.useEffect(()=>{
+        setTaskPending(notesArray.length)
+    }, [notesArray])
 
     const noteElements = notesArray.map(note => (
-        <Note note={note}/>
+        <Note key={note.id} note={note} handleChecked={()=>handleChecked(note.id)}/>
     ))
 
+    console.log(`Task pending ${taskPending}  Task done ${taskDone}`)
     return (
         <div className="App">
-            <Header />
-
-            <Popup trigger={<button> Trigger</button>} position="right center">
-                <form onSubmit={handleAddNote}>
-                    <input
-                        placeholder="Type your note here..."
-                        type="text"
-                        value={newNote}
-                        name="newNote"
-                        onChange={handleChange}
-                    />
-                    <button>Submit</button>
-                    </form>
-            </Popup>
-
-
-
-            {noteElements}
+            <Header taskPending={taskPending} taskDone={taskDone}/>
+            <AddNote setNotesArray={setNotesArray}/>
+            <div className="app--notes-wrapper">
+                {noteElements}
+            </div>
         </div>
     );
 }

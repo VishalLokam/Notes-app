@@ -10,6 +10,9 @@ body {
     margin: 0;
     padding: 10px;
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .header--app-name{
@@ -17,8 +20,28 @@ body {
     color: #FAF7F0;
 }
 
+.header--task-pending-counter{
+    margin: 0;
+    margin-left: auto;
+    margin-top: 5px;
+    color: #FAF7F0;
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+.header--counter-wrapper{
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto
+}
+
 .app--create-button{
     margin-right: auto
+}
+
+.app--notes-wrapper{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
 }
 
 .note--wrapper{
